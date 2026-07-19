@@ -44,13 +44,12 @@
     });
   });
 
-
   // 販売実績・成約実績の自動表示
   const resultsList = document.querySelector('[data-results-list]');
   if (resultsList) {
     const results = Array.isArray(window.RESULTS_DATA) ? window.RESULTS_DATA : [];
-    const escapeHtml = (value) => String(value || '').replace(/[&<>"]/g, (char) => {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char];
+    const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (char) => {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
     });
 
     if (results.length === 0) {
@@ -59,14 +58,13 @@
       resultsList.innerHTML = results.map((item) => {
         return `
           <article class="result-card">
-            <span>${escapeHtml(item.category)}</span>
-            <h2>${escapeHtml(item.title)}</h2>
+            <span>${escapeHtml(item.area)}</span>
+            <h2>${escapeHtml(item.property)}</h2>
             <dl>
-              <div><dt>成約時期</dt><dd>${escapeHtml(item.closedAt)}</dd></div>
               <div><dt>売却期間</dt><dd>${escapeHtml(item.period)}</dd></div>
               <div><dt>相談内容</dt><dd>${escapeHtml(item.request)}</dd></div>
+              <div><dt></dt><dd>${escapeHtml(item.reason)}</dd></div>
             </dl>
-            <p>${escapeHtml(item.comment)}</p>
           </article>
         `;
       }).join('');
